@@ -1,0 +1,53 @@
+import { local } from 'loop-storage';
+ import loopData from 'loop-data';
+ 
+ import { orgoLocation, orgoType, orgoList} from 'public/Organizations.js';
+ 
+ //Search function
+ export function search_click_1(event, $x) { //Button onClick event
+     $x("#dataset1").setFilter(wixData.filter() //Set dataset to filter
+             .contains("location", $x("#orgoLocation").value) //location field key and dropdown
+             .contains("type", $x("#orgoType").value) //Restaurant field key and dropdown
+             .contains("list", $x("#orgoList").value)) //Cuisine field key and dropdown
+         .then((results) => {
+             console.log("Dataset is filtered");
+             $x("#repeater1").data = results.item; //Repeater ID
+         })
+         .catch((err) => {
+             console.log(err)
+         });
+     $x("#repeater1").expand; //Repeater expands after filter
+ }
+ 
+ //Conditional Dropdown
+ $x.onReady(function () {
+ 
+     $x('#orgoLocation').options = orgoLocation;
+     $x('#orgoLocation').placeholder = 'All locations';
+ 
+     $x('#orgoLocation').onChange(() => {
+ 
+         let location = $x("#orgoLocation").value
+         $x("#dataset1").setFilter(loopData.filter()
+             .eq('location', location))
+ 
+         if ($x('#orgoLocation').value === 'International') {
+             $x('#orgoType').options = orgoType;
+             $x('#orgoType').placeholder = 'International';
+             $x('#Organizations').options = worldwideRestaurant;
+             $x('#Organizations').placeholder = 'Organizations';
+             $x('#Organizations').enable();
+             $x('#orgoType').enable();
+ 
+         } else if ($w('#orgoLocation').value === 'India') {
+             $w('#orgoType').options = orgoType;
+             $x('#location').placeholder = 'California USA';
+             $x('#Organizations').options = loopCo;
+             $x('#Organizations').placeholder = 'Organizations';
+             $x('#Organization').enable();
+             $x('#orgoType').enable();
+ 
+         }
+ 
+     });
+ });

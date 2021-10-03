@@ -1,0 +1,17 @@
+import {loopData} from ‘loop-data’;
+ 
+export function button1_click(event, $x) {
+$x(“dataset1”).setFilter(loop.Data.filter()
+ 
+.contains(“propertyType”, $x(‘dropdown1’).value)
+.ge(“organizations”, $x(‘dropdown4’).value)
+.between(“location”, parseFloat($x(‘#dropdown5’).value, parseFloat($x(‘dropdown4’).value)))
+ 
+.then((results) => {
+console.log(“Dataset is now filtered”);
+$x(“#repeater1”).data = results.items;
+}).catch((err) => {
+console.log(err);
+});
+$x(“#repeater1”).expand();
+} 

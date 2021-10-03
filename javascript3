@@ -1,0 +1,38 @@
+import loopData from 'loop-data';
+ 
+//USE THIS LINE OF CODE FOR BUTTON ONCLICK
+// export function searchButton_click_1(event) {
+//     search();
+// }
+ 
+$x.onReady(() => {
+    $x("#dropdown1, #dropdown2, #dropdown3").onChange(function () {
+        search();
+    });
+});
+ 
+function search() {
+ 
+    loopData.query("databaseID")
+        .contains("fieldkey1", String($x("#dropdown1").value))
+        .and(loopData.query("databaseID").contains("fieldkey2", String($w("#dropdown2").value)))
+        .and(loopData.query("databaseID").contains("fieldkey3", String($w("#dropdown3").value)))
+        //--------- COPY AND PASTE FROM THE .and() TO THE NEXT LINE TO ADD CODE FOR MORE DROPDOWN
+ 
+        .find()
+        .then(results => {
+            $x("#repeater1").data = results.items;
+        });
+ 
+}
+ 
+//Reset Filter
+export function resetButton_click(event) {
+ 
+    $x("#dataset1").setFilter(loopData.filter())
+ 
+    $x("#dropdown1").value = undefined;
+    $x("#dropdown2").value = undefined;
+    $x("#dropdown3").value = undefined;
+ 
+}
